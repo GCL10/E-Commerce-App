@@ -15,6 +15,12 @@ $equipment_details = array(
 <?php
 $equipment_colors = array("red", "blue", "green", "yellow");
 ?>
+<?php
+    function calculateDiscountedPrice($price, $discountPercentage) {
+    $discountedPrice = $price - ($price * $discountPercentage / 100);
+    return $discountedPrice;
+}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -22,16 +28,21 @@ $equipment_colors = array("red", "blue", "green", "yellow");
 	<title>Gym Equipment Store</title>
 </head>
 <body>
+    <!-- Page Header -->
 	<h1>EQUIP</h1>
+    <!-- Equipment Name -->
 	<h2><?php echo $equipment_name; ?></h2>
+    <!-- Equipment Price -->
 	<p>Price: <?php echo $equipment_price; ?></p>
+    <!-- Equipment Availability -->
 	<?php if($equipment_in_stock){ ?>
 		<p>In Stock: Yes</p>
-		<p>Discount: <?php echo $equipment_price - ($equipment_price * DISCOUNT_PERCENTAGE / 100); ?></p>
+        <!-- Calculate and display the discounted price -->
+		<p>Discount: <?php echo                                            calculateDiscountedPrice($equipment_price,                         DISCOUNT_PERCENTAGE); ?></p>
 	<?php } else { ?>
 		<p>In Stock: No</p>
 	<?php } ?>
-	
+	<!-- Other Available Equipment -->
 	<h2>Other Available Equipment:</h2>
 	<table>
 		<tr>
@@ -41,30 +52,33 @@ $equipment_colors = array("red", "blue", "green", "yellow");
 		</tr>
 		<?php foreach ($equipment_details as $equipment) { ?>
 			<tr>
+                <!-- Display equipment details -->
 				<td><?php echo $equipment['name']; ?></td>
 				<td><?php echo $equipment['price']; ?></td>
 				<td><?php echo ($equipment['in_stock'] ? "Yes" : "No"); ?></td>
 			</tr>
 		<?php } ?>
 	</table>
-
+    <!-- Available Equipment Colors -->
     <h2>Available Equipment Colors:</h2>
 	<ul>
 		<?php
 		$i = 0;
 		while($i < count($equipment_colors)) {
+            // Display each equipment color
 			echo "<li>" . $equipment_colors[$i] . "</li>";
 			$i++;
 		}
 		?>
 	</ul>
-
+        <!-- Equipment Color Combinations -->
     <h2>Equipment Color Combinations:</h2>
 	<ul>
 		<?php
 		foreach ($equipment_colors as $color1) {
 			foreach ($equipment_colors as $color2) {
 				if ($color1 != $color2) {
+                     // Display color combinations
 					echo "<li>" . $color1 . " and " . $color2 . "</li>";
 				}
 			}
